@@ -21,11 +21,11 @@ export class UsersService {
     return this.userModel.findById(id).exec();
   }
 
-  async update(id: number, updateUserDto: UpdateUserDto): Promise<User> {
+  async update(id: string, updateUserDto: UpdateUserDto): Promise<User> {
     return this.userModel.findByIdAndUpdate(id, updateUserDto, { new: true });
   }
 
-  async remove(id: number): Promise<User> {
+  async remove(id: string): Promise<User> {
     return this.userModel.findByIdAndDelete(id);
   }
 }
