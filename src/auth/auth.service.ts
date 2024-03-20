@@ -29,7 +29,9 @@ export class AuthService {
     });
     const tokens = await this.getTokens(newUser._id, newUser.username);
     await this.updateRefreshToken(newUser._id, tokens.refreshToken);
-    return tokens;
+    delete newUser.password;
+    delete newUser.refreshToken;
+    return { ...tokens, id: newUser._id, name: newUser.name, username: newUser.username, email: newUser.email, roles: newUser.roles};
   }
 
 	async signIn(data: AuthDto) {
@@ -43,7 +45,7 @@ export class AuthService {
     await this.updateRefreshToken(user._id, tokens.refreshToken);
     delete user.password;
     delete user.refreshToken;
-    return {tokens, user: {id: user._id, name: user.name, username: user.username, email: user.email, roles: user.roles}};
+    return { ...tokens, id: user._id, name: user.name, username: user.username, email: user.email, roles: user.roles};
   }
 
 	async logout(userId: string) {
