@@ -20,5 +20,8 @@ export class CreateUserDto {
   email: string;
 
   @IsString()
+  'self-intro': string;
+
+  @IsString()
   refreshToken: string;
 }

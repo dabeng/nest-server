@@ -20,6 +20,9 @@ export class User extends Document {
   @Prop({ required: true })
   email: string;
 
+  @Prop()
+  'self-intro': string;
+
   // In fact the only way to be sure that an XSS attack can't steal your tokens is to keep the tokens
   // in a backend app, not in the browser.
   @Prop()
