@@ -1,5 +1,5 @@
 import { IsString, IsEmail, MinLength, IsArray, IsDate } from 'class-validator';
-export class CreatePostDto {
+export class CreateBlogDto {
   @IsString()
   title: string;
 
@@ -9,12 +9,12 @@ export class CreatePostDto {
   @IsString()
   author: string;
 
-  @IsString()
-  content: string;
-
   @IsDate()
   publishedDate: Date;
 
   @IsDate()
   updatedDate: Date;
+
+  @IsString()
+  content: string;
 }

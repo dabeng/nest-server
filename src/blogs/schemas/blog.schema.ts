@@ -3,7 +3,7 @@ import { now, Types } from "mongoose";
 import { User } from '../../users/schemas/user.schema';
 
 @Schema()
-export class Post {
+export class Blog {
   @Prop({ required: true, unique: true })
   title: string;
 
@@ -13,14 +13,14 @@ export class Post {
   @Prop({ required: true, type: Types.ObjectId, ref: 'User' })
   author: User;
 
-  @Prop({ required: true })
-  content: string;
-
   @Prop({ required: true, default: now() })
   publishedDate: Date;
 
-  @Prop({ required: true, default: now() })
+  @Prop()
   updatedDate: Date;
+
+  @Prop({ required: true })
+  content: string;
 }
 
-export const PostSchema = SchemaFactory.createForClass(Post);
+export const BlogSchema = SchemaFactory.createForClass(Blog);
