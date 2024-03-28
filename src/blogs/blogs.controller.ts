@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, Res, Req } from '@nestjs/common';
 import { BlogsService } from './blogs.service';
 import { Blog } from './schemas/blog.schema';
 import { CreateBlogDto } from './dto/create-blog.dto';
@@ -14,8 +14,9 @@ export class BlogsController {
   }
 
   @Get()
-  findAll(): Promise<Blog[]> {
-    return this.blogsService.findAll();
+  async findAll(@Res() response: any, @Req() request: any): Promise<Blog[]> {
+    const result = await this.blogsService.findAll(request.query);
+    return response.json(result);
   }
 
   @Get(':id')

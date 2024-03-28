@@ -4,18 +4,24 @@ import { InjectModel } from '@nestjs/mongoose';
 import { CreateBlogDto } from './dto/create-blog.dto';
 import { UpdateBlogDto } from './dto/update-blog.dto';
 import { Blog } from './schemas/blog.schema';
+import { APIFeatures } from 'src/common/apiFeatures';
 
 @Injectable()
 export class BlogsService {
 
-  constructor(@InjectModel('Blog') private readonly blogModel: Model<Blog>) {}
+  constructor(@InjectModel('Blog') private readonly blogModel: Model<Blog>) { }
 
   async create(createPostDto: CreateBlogDto): Promise<Blog> {
     return (new this.blogModel(createPostDto)).save();
   }
 
-  async findAll(): Promise<Blog[]> {
-    return this.blogModel.find().exec();
+  async findAll(query?: any): Promise<Blog[]> {
+    return new APIFeatures(this.blogModel.find(), query)
+      .filter()
+      .sort()
+      .limit()
+      .pagination()
+      .mongooseQuery;
   }
 
   async findOne(id: string): Promise<Blog> {
