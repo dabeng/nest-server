@@ -1,10 +1,12 @@
 export class APIFeatures {
   mongooseQuery: any;
   queryString: any;
+  metadata: any;
 
   constructor(mongooseQuery: any, queryString: any) {
     this.mongooseQuery = mongooseQuery;
     this.queryString = queryString;
+    this.metadata = null;
   }
 
   filter() {
@@ -22,7 +24,7 @@ export class APIFeatures {
     //console.log(JSON.parse(queryStr));
 
     this.mongooseQuery = this.mongooseQuery.find(JSON.parse(queryStr));
-
+    this.metadata = this.mongooseQuery.clone().countDocuments();
     return this;
   }
 

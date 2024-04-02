@@ -15,13 +15,16 @@ export class BlogsService {
     return (new this.blogModel(createPostDto)).save();
   }
 
-  async findAll(query?: any): Promise<Blog[]> {
-    return new APIFeatures(this.blogModel.find(), query)
+  async findAll(query?: any): Promise<any> {
+    const features =  new APIFeatures(this.blogModel.find(), query)
       .filter()
       .sort()
       .limit()
-      .pagination()
-      .mongooseQuery;
+      .pagination();
+    //Execute the query
+    const blogs = await features.mongooseQuery;
+    const metadata = await features.metadata;
+    return {data:blogs, metadata};
   }
 
   async findOne(id: string): Promise<Blog> {
