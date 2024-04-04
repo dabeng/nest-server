@@ -12,18 +12,26 @@ export class APIFeatures {
   filter() {
     // 1) Filtering
     const queryObj = { ...this.queryString };
+
+    // 把regex_field=value替换成{ field: { $regex: 基于value的正则表达式 }
+    Object.entries(queryObj).forEach(([key, value]) => {
+      if (key.startsWith('regex')) {
+        queryObj[key.slice(key.indexOf('_') + 1)] = {$regex: new RegExp((value as string).replace(/[-[\]{}()*+?.,\\^$|#\s]/g, '\\$&'), 'gi')};
+        delete queryObj[key];
+      }
+    });
+
     const excludedFields = ['page', 'sort', 'limit', 'fields'];
     excludedFields.forEach((fields) => {
       delete queryObj[fields];
     });
-    // console.log(queryObj);
 
     //2) Advanced filtering
-    let queryStr = JSON.stringify(queryObj);
-    queryStr = queryStr.replace(/\b(gte|gt|lte|lt)\b/g, (match) => `$${match}`);
-    //console.log(JSON.parse(queryStr));
+    // let queryStr = JSON.stringify(queryObj);
+    // queryStr = queryStr.replace(/\b(gte|gt|lte|lt)\b/g, (match) => `$${match}`);
+    // console.log(JSON.parse(queryStr));
 
-    this.mongooseQuery = this.mongooseQuery.find(JSON.parse(queryStr));
+    this.mongooseQuery = this.mongooseQuery.find(queryObj);
     this.metadata = this.mongooseQuery.clone().countDocuments();
     return this;
   }

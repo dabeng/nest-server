@@ -23,8 +23,8 @@ export class BlogsService {
       .pagination();
     //Execute the query
     const blogs = await features.mongooseQuery;
-    const metadata = await features.metadata;
-    return {data:blogs, metadata};
+    const total = await features.metadata;
+    return {data:blogs, metadata: {total}};
   }
 
   async findOne(id: string): Promise<Blog> {
