@@ -13,10 +13,13 @@ export class APIFeatures {
     // 1) Filtering
     const queryObj = { ...this.queryString };
 
-    // 把regex_field=value替换成{ field: { $regex: 基于value的正则表达式 }
+    // Specifies the $regex query conditions
     Object.entries(queryObj).forEach(([key, value]) => {
       if (key.startsWith('regex')) {
-        queryObj[key.slice(key.indexOf('_') + 1)] = {$regex: new RegExp((value as string).replace(/[-[\]{}()*+?.,\\^$|#\s]/g, '\\$&'), 'gi')};
+        queryObj[key.slice(key.indexOf('_') + 1)] = {
+          // replace()将用户输入转义为正则表达式中的一个字面字符串
+          $regex: new RegExp((value as string).replace(/[.*+?^${}()|[\]\\]/g, "\\$&"), 'gi')
+        };
         delete queryObj[key];
       }
     });
