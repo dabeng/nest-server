@@ -41,13 +41,16 @@ export class APIFeatures {
 
   sort() {
     if (this.queryString.sort) {
-      const sortBy = this.queryString.sort.split(',').join(' ');
-      // console.log(sortBy);
+      const sortBy = {};
+      this.queryString.sort.split(',').forEach(s => {
+        if (s.startsWith('-')) {
+          sortBy[s.slice(1)] = 'desc';
+        } else {
+          sortBy[s] = 'asc';
+        }
+      });
       this.mongooseQuery = this.mongooseQuery.sort(sortBy);
-    } else {
-      this.mongooseQuery = this.mongooseQuery.sort('-created');
     }
-
     return this;
   }
 
