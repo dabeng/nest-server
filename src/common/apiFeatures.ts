@@ -24,7 +24,7 @@ export class APIFeatures {
       }
     });
 
-    const excludedFields = ['page', 'sort', 'limit', 'fields'];
+    const excludedFields = ['page', 'sort', 'page_size', 'fields'];
     excludedFields.forEach((fields) => {
       delete queryObj[fields];
     });
@@ -53,8 +53,8 @@ export class APIFeatures {
     }
     return this;
   }
-
-  limit() {
+  // Specifies which document fields to include
+  select() {
     if (this.queryString.fields) {
       const fields = this.queryString.fields.split(',').join(' ');
 
@@ -70,8 +70,8 @@ export class APIFeatures {
     // get the page and convert it to a number. If no page set default to 1
     const page = this.queryString.page * 1 || 1;
 
-    // get limit and if no limit, set limit to 100
-    const limit = this.queryString.limit * 1 || 100;
+    // get limit and if no limit, set limit to 10
+    const limit = this.queryString.page_size * 1 || 10;
 
     // calculate skip value
     const skip = (page - 1) * limit;

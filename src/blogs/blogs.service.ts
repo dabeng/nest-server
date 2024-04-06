@@ -19,7 +19,7 @@ export class BlogsService {
     const features =  new APIFeatures(this.blogModel.find(), query)
       .filter()
       .sort()
-      .limit()
+      .select()
       .pagination();
     //Execute the query
     const blogs = await features.mongooseQuery;
