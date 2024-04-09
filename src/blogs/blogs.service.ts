@@ -11,8 +11,8 @@ export class BlogsService {
 
   constructor(@InjectModel('Blog') private readonly blogModel: Model<Blog>) { }
 
-  async create(createPostDto: CreateBlogDto): Promise<Blog> {
-    return (new this.blogModel(createPostDto)).save();
+  async create(createBlogDto: CreateBlogDto): Promise<Blog> {
+    return (new this.blogModel(createBlogDto)).save();
   }
 
   async findAll(query?: any): Promise<any> {
@@ -31,8 +31,8 @@ export class BlogsService {
     return this.blogModel.findById(id).exec();
   }
 
-  async update(id: string, updatePostDto: UpdateBlogDto): Promise<Blog> {
-    return this.blogModel.findByIdAndUpdate(id, updatePostDto, { new: true });
+  async update(id: string, updateBlogDto: UpdateBlogDto): Promise<Blog> {
+    return this.blogModel.findByIdAndUpdate(id, updateBlogDto, { new: true });
   }
 
   async remove(id: string): Promise<Blog> {
