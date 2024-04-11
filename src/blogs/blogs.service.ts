@@ -16,7 +16,7 @@ export class BlogsService {
   }
 
   async findAll(query?: any): Promise<any> {
-    const features =  new APIFeatures(this.blogModel.find(), query)
+    const features = new APIFeatures(this.blogModel.find(), query)
       .filter()
       .sort()
       .select()

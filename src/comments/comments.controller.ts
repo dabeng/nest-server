@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, Res, Req } from '@nestjs/common';
 import { CommentsService } from './comments.service';
 import { Comment } from './schemas/comment.schema';
 import { CreateCommentDto } from './dto/create-comment.dto';
@@ -14,8 +14,9 @@ export class CommentsController {
   }
 
   @Get()
-  findAll(): Promise<Comment[]> {
-    return this.commentsService.findAll();
+  async findAll(@Res() response: any, @Req() request: any): Promise<Comment[]> {
+    const result = await this.commentsService.findAll(request.query);
+    return response.json(result);
   }
 
   @Get(':id')

@@ -4,6 +4,7 @@ import { InjectModel } from '@nestjs/mongoose';
 import { CreateCommentDto } from './dto/create-comment.dto';
 import { UpdateCommentDto } from './dto/update-comment.dto';
 import { Comment } from './schemas/comment.schema';
+import { APIFeatures } from 'src/common/apiFeatures';
 
 @Injectable()
 export class CommentsService {
@@ -13,8 +14,15 @@ export class CommentsService {
     return (new this.commentModel(createCommentDto)).save();
   }
 
-  findAll(): Promise<Comment[]> {
-    return this.commentModel.find().exec();
+  async findAll(query?: any): Promise<any> {
+    const features = new APIFeatures(this.commentModel.find(), query)
+      .filter()
+      .sort()
+      .select()
+      .pagination();
+    const comments = await features.mongooseQuery;
+    const total = await features.metadata;
+    return { data: comments, metadata: { total } };
   }
 
   findOne(id: string): Promise<Comment> {
