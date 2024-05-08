@@ -50,11 +50,14 @@ There is a simple way to achieve this:
   
   */
   async findAll(query?: any): Promise<any> {
-    const features = new APIFeatures(this.commentModel.find().populate({
+    const features = new APIFeatures(this.commentModel.find()
+    .populate({
       path: 'author',
       model: 'User',
       select: 'username',
-    }), query)
+    })
+    .populate('votes')
+    , query)
       .filter()
       .sort()
       .select()
