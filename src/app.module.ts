@@ -7,9 +7,10 @@ import { AuthModule } from './auth/auth.module';
 import { ConfigModule } from '@nestjs/config';
 import { BlogsModule } from './blogs/blogs.module';
 import { CommentsModule } from './comments/comments.module';
+import { VotesModule } from './votes/votes.module';
 
 @Module({
-  imports: [MongooseModule.forRoot('mongodb://localhost/nest-server'), UsersModule, AuthModule, ConfigModule.forRoot({ isGlobal: true }), BlogsModule, CommentsModule],
+  imports: [MongooseModule.forRoot('mongodb://localhost/nest-server'), UsersModule, AuthModule, ConfigModule.forRoot({ isGlobal: true }), BlogsModule, CommentsModule, VotesModule],
   controllers: [AppController],
   providers: [AppService],
 })
