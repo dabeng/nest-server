@@ -3,7 +3,7 @@ import { now, Types } from "mongoose";
 import { User } from '../../users/schemas/user.schema';
 import { Comment } from '../../comments/schemas/comment.schema';
 
-@Schema()
+@Schema({toObject: { virtuals: true }, toJSON: {virtuals: true}})
 export class Vote {
   @Prop({ required: true, type: Types.ObjectId, ref: 'User' })
   user: User;

@@ -20,9 +20,9 @@ export class VotesService {
       .sort()
       .select()
       .pagination();
-    const comments = await features.mongooseQuery;
+    const votes = await features.mongooseQuery;
     const total = await features.metadata;
-    return { data: comments, metadata: { total } };
+    return { data: votes, metadata: { total } };
   }
 
   findOne(id: string): Promise<Vote> {

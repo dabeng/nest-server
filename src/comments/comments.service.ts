@@ -56,7 +56,7 @@ There is a simple way to achieve this:
       model: 'User',
       select: 'username',
     })
-    .populate('votes')
+    .populate({path: 'votes'})
     , query)
       .filter()
       .sort()
