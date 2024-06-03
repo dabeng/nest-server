@@ -51,13 +51,13 @@ There is a simple way to achieve this:
   */
   async findAll(query?: any): Promise<any> {
     const features = new APIFeatures(this.commentModel.find()
-    .populate({
-      path: 'author',
-      model: 'User',
-      select: 'username',
-    })
-    .populate({path: 'votes'})
-    , query)
+      .populate({
+        path: 'author',
+        model: 'User',
+        select: 'username',
+      })
+      .populate({ path: 'votes', populate: { path: 'user', model: 'User', select: 'username' } })
+      , query)
       .filter()
       .sort()
       .select()
