@@ -1,5 +1,6 @@
 import { Controller, Get, Post, Body, Patch, Param, Delete, Res, Req, UsePipes, ValidationPipe } from '@nestjs/common';
 import { VotesService } from './votes.service';
+import { UsersService } from '../users/users.service';
 import { CreateVoteDto, CreateVoteConverterPipe } from './dto/create-vote.dto';
 import { UpdateVoteDto } from './dto/update-vote.dto';
 import { Vote } from './schemas/vote.schema';
@@ -7,7 +8,7 @@ import { ObjectId } from 'mongodb';
 
 @Controller('votes')
 export class VotesController {
-  constructor(private readonly votesService: VotesService) { }
+  constructor(private readonly votesService: VotesService, private readonly usersService: UsersService) { }
 
   @Post()
   // The following code snippets don't quite work as envisioned
@@ -16,10 +17,12 @@ export class VotesController {
   //   transformOptions: { enableImplicitConversion: true },
   // }))
   // 这里关于pipe的使用，全是坑，目前的进度是，transform已经完成，但是传回来的createVoteDto的值并不是transformed的
-  create(@Body() createVoteDto: CreateVoteDto): Promise<Vote> {
+  async create(@Body() createVoteDto: CreateVoteDto): Promise<Vote> {
+    createVoteDto.username = (await this.usersService.findOne(createVoteDto.user.toString())).username;
     // [TODO] 按理说如果pipe工作正常，下面两行是冗余的
     createVoteDto.user = new ObjectId(createVoteDto.user);
     createVoteDto.comment = new ObjectId(createVoteDto.comment);
+
     return this.votesService.create(createVoteDto);
   }
 

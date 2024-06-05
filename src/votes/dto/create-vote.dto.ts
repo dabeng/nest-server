@@ -8,6 +8,9 @@ export class CreateVoteDto {
   @IsNotEmpty()
   user: Types.ObjectId;
 
+  @IsString()
+  username: string;
+
   @IsNotEmpty()
   comment: Types.ObjectId;
 

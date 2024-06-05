@@ -8,6 +8,9 @@ export class Vote {
   @Prop({ required: true, type: Types.ObjectId, ref: 'User' })
   user: User;
 
+  @Prop({ })
+  username: string;
+
   @Prop({ required: true, type: Types.ObjectId, ref: 'Comment' })
   comment: Comment;
 
