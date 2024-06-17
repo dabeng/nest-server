@@ -8,9 +8,10 @@ import { ConfigModule } from '@nestjs/config';
 import { BlogsModule } from './blogs/blogs.module';
 import { CommentsModule } from './comments/comments.module';
 import { VotesModule } from './votes/votes.module';
+import { FileModule } from './file/file.module';
 
 @Module({
-  imports: [MongooseModule.forRoot('mongodb://localhost/nest-server'), UsersModule, AuthModule, ConfigModule.forRoot({ isGlobal: true }), BlogsModule, CommentsModule, VotesModule],
+  imports: [MongooseModule.forRoot('mongodb://localhost/nest-server'), UsersModule, AuthModule, ConfigModule.forRoot({ isGlobal: true }), BlogsModule, CommentsModule, VotesModule, FileModule],
   controllers: [AppController],
   providers: [AppService],
 })
