@@ -1,5 +1,5 @@
-import { Post, UseInterceptors, UploadedFile, Controller } from '@nestjs/common';
-import { FileInterceptor } from '@nestjs/platform-express';
+import { Post, UseInterceptors, UploadedFiles, Controller } from '@nestjs/common';
+import { FilesInterceptor } from '@nestjs/platform-express';
 import { diskStorage } from 'multer';
 import { FileService } from './file.service';
 
@@ -9,17 +9,17 @@ export class FileController {
 
   @Post('upload') // Endpoint for uploading files
   @UseInterceptors(
-    FileInterceptor('file', {
+    FilesInterceptor('attachments', 10, {
       storage: diskStorage({
-        destination: 'public/img',
+        destination: 'public/attachments',
         filename: (req, file, cb) => {
           cb(null, file.originalname);
         },
       }),
     }), 
   ) // Intercept and handle file uploads
-  async uploadFile(@UploadedFile() file: Express.Multer.File) {
+  async uploadFile(@UploadedFiles() files: Array<Express.Multer.File>) {
     // Delegate file handling to the FileService
-    return await this.fileService.uploadFile(file);
+    return await this.fileService.uploadFile(files);
   }
 }

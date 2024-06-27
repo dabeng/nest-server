@@ -3,7 +3,7 @@ import { Express } from 'express';
 
 @Injectable()
 export class FileService {
-  async uploadFile(file: Express.Multer.File) {
+  async uploadFile(files: Array<Express.Multer.File>) {
     // Add your specific file upload logic here, including:
 
     // 1. Validation (e.g., file size, type, MIME type)
@@ -16,11 +16,17 @@ export class FileService {
     // ...
 
     // 4. Return relevant information or perform further actions
-    return {
-      originalname: file.originalname,
-      filename: file.filename,
-      size: file.size,
-      mimetype: file.mimetype,
-    };
+
+    const response = [];
+    files.forEach(file => {
+      const fileReponse = {
+        originalname: file.originalname,
+        filename: file.filename,
+        size: file.size,
+        mimetype: file.mimetype,
+      };
+      response.push(fileReponse);
+    });
+    return response;
   }
 }
